@@ -9,24 +9,30 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 const PORT = process.env.PORT || 3000;
 
+const cors = require("cors");
+
+// Set up CORS middleware for your Express app
 app.prepare().then(() => {
   const server = createServer((req, res) => {
     const parsedUrl = parse(req.url, true);
     handle(req, res, parsedUrl);
   });
 
-    const io = new Server(server, {
-      origin: "*",
+  // Set up the Socket.IO server with CORS options
+  const io = new Server(server, {
+    cors: {
+      origin: "https://gseas.vercel.app",
       methods: ["GET", "POST"],
-      credentials: true
-    });
+      credentials: true,
+    },
+  });
 
   io.on("connection", (socket) => {
     console.log("A user connected");
 
     socket.on("sendMessage", (messageData) => {
-      // Save message to database logic if needed
-      io.emit("receiveMessage", messageData); // Broadcasts to all clients
+      // Broadcast the message to all clients
+      io.emit("receiveMessage", messageData);
     });
 
     socket.on("disconnect", () => {
@@ -34,6 +40,16 @@ app.prepare().then(() => {
     });
   });
 
+  // Test CORS endpoint (for debugging purposes)
+  server.on("request", (req, res) => {
+    if (req.url === "/test-cors") {
+      res.setHeader("Access-Control-Allow-Origin", "https://gseas.vercel.app");
+      res.writeHead(200);
+      res.end("CORS is working!");
+    }
+  });
+
+  // Start the server
   server.listen(PORT, (err) => {
     if (err) throw err;
     console.log(`> Ready on http://localhost:${PORT}`);

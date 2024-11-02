@@ -14,7 +14,9 @@ const Chat = ({ chatRoom }) => {
 
   useEffect(() => {
     // Connect to the Socket.IO server
-    socket.current = io("https://gseas.onrender.com");
+    socket.current = io("https://gseas.onrender.com", {
+      transports: ["websocket"],
+    });
 
     // Listen for incoming messages
     socket.current.on("receiveMessage", (newMessage) => {
