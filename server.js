@@ -2,6 +2,7 @@ const { createServer } = require("http");
 const { parse } = require("url");
 const next = require("next");
 const { Server } = require("socket.io");
+require("dotenv").config();
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -13,7 +14,13 @@ app.prepare().then(() => {
     handle(req, res, parsedUrl);
   });
 
-  const io = new Server(server);
+    const io = new Server(server, {
+      cors: {
+        origin: "https://gseas.vercel.app/", // Replace with your Vercel app URL
+        methods: ["GET", "POST"],
+        credentials: true,
+      },
+    });
 
   io.on("connection", (socket) => {
     console.log("A user connected");
