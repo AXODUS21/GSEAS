@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "tailwindcss": "^3.4.14",
     "autoprefixer": "^10.4.20",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
