@@ -14,7 +14,7 @@ const Chat = ({ chatRoom }) => {
 
   useEffect(() => {
     // Connect to the Socket.IO server
-    socket.current = io("https://emerse.onrender.com");
+    socket.current = io("https://gseas.onrender.com");
 
     // Listen for incoming messages
     socket.current.on("receiveMessage", (newMessage) => {
@@ -83,7 +83,7 @@ const Chat = ({ chatRoom }) => {
     };
 
     getMessages();
-  }, [chatRoom?._id]);
+  }, [chatRoom?._id,message]);
 
   useEffect(() => {
     scrollToBottom();
