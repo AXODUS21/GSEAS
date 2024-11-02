@@ -12,25 +12,25 @@ const Chat = ({ chatRoom }) => {
   const messagesEndRef = useRef(null);
   const socket = useRef(null);
 
-useEffect(() => {
-  // Connect to the Socket.IO server
-  socket.current = io("https://gseas.onrender.com");
+  useEffect(() => {
+    // Connect to the Socket.IO server
+    socket.current = io("https://gseas.onrender.com");
 
-  // Listen for incoming messages
-  socket.current.on("receiveMessage", (newMessage) => {
-    setMessageList((prevMessages) => [...prevMessages, newMessage]);
-  });
+    // Listen for incoming messages
+    socket.current.on("receiveMessage", (newMessage) => {
+      getMessages()
+    });
 
-  // Handle connection errors
-  socket.current.on("connect_error", (error) => {
-    console.error("Socket connection error:", error);
-  });
+    // Handle connection errors
+    socket.current.on("connect_error", (error) => {
+      console.error("Socket connection error:", error);
+    });
 
-  // Clean up connection on component unmount
-  return () => {
-    socket.current.disconnect();
-  };
-}, []);
+    // Clean up connection on component unmount
+    return () => {
+      socket.current.disconnect();
+    };
+  }, []);
 
 
  const sendMessage = async () => {
@@ -73,23 +73,23 @@ useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
   
+  const getMessages = async () => {
+    if (!chatRoom?._id) return;
+    try {
+      const response = await fetch(`/api/messages/${chatRoom._id}`, {
+        cache: "no-store",
+      });
+      const data = await response.json();
+      setMessageList(data);
+    } catch (err) {
+      console.error("Error fetching messages:", err);
+    }
+  };
+
   useEffect(() => {
     // Fetch initial messages when the chatRoom ID changes
-    const getMessages = async () => {
-      if (!chatRoom?._id) return;
-      try {
-        const response = await fetch(`/api/messages/${chatRoom._id}`, {
-          cache: "no-store",
-        });
-        const data = await response.json();
-        setMessageList(data);
-      } catch (err) {
-        console.error("Error fetching messages:", err);
-      }
-    };
-
     getMessages();
-  }, [chatRoom?._id]);
+  }, [chatRoom?._id, message]);
 
   useEffect(() => {
     scrollToBottom();
