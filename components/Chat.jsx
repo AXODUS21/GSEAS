@@ -12,20 +12,26 @@ const Chat = ({ chatRoom }) => {
   const messagesEndRef = useRef(null);
   const socket = useRef(null);
 
-  useEffect(() => {
-    // Connect to the Socket.IO server
-    socket.current = io("https://gseas.onrender.com");
+ useEffect(() => {
+   socket.current = io("https://gseas.onrender.com");
 
-    // Listen for incoming messages
-    socket.current.on("receiveMessage", (newMessage) => {
-      setMessageList((prevMessages) => [...prevMessages, newMessage]);
-    });
+   socket.current.on("connect", () => {
+     console.log("Connected to the socket server");
+   });
 
-    // Clean up connection on component unmount
-    return () => {
-      socket.current.disconnect();
-    };
-  }, []);
+   socket.current.on("connect_error", (error) => {
+     console.error("Socket connection error:", error);
+   });
+
+   socket.current.on("receiveMessage", (newMessage) => {
+     setMessageList((prevMessages) => [...prevMessages, newMessage]);
+   });
+
+   return () => {
+     socket.current.disconnect();
+   };
+ }, []);
+
 
   const sendMessage = async () => {
     if (!message) return;

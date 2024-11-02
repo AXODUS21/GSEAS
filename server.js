@@ -16,11 +16,11 @@ app.prepare().then(() => {
   });
 
     const io = new Server(server, {
-      cors: {
-        origin: "https://gseas.vercel.app/", // Replace with your Vercel app URL
-        methods: ["GET", "POST"],
-        credentials: true,
-      },
+      origin: [
+        "https://gseas.onrender.com", // Your Render URL
+        "http://localhost:3000", // Your local development URL
+        "https://gseas.vercel.app/", // Your Vercel URL
+      ],
     });
 
   io.on("connection", (socket) => {
