@@ -12,62 +12,61 @@ const Chat = ({ chatRoom }) => {
   const messagesEndRef = useRef(null);
   const socket = useRef(null);
 
- useEffect(() => {
-   socket.current = io("https://gseas.onrender.com");
+  useEffect(() => {
+    // Connect to the Socket.IO server
+    socket.current = io("https://gseas.onrender.com");
 
-   socket.current.on("connect", () => {
-     console.log("Connected to the socket server");
-   });
+    // Listen for incoming messages
+    socket.current.on("receiveMessage", (newMessage) => {
+      setMessageList((prevMessages) => [...prevMessages, newMessage]);
+    });
 
-   socket.current.on("connect_error", (error) => {
-     console.error("Socket connection error:", error);
-   });
+    // Handle connection errors
+    socket.current.on("connect_error", (error) => {
+      console.error("Socket connection error:", error);
+    });
 
-   socket.current.on("receiveMessage", (newMessage) => {
-     setMessageList((prevMessages) => [...prevMessages, newMessage]);
-   });
+    // Clean up connection on component unmount
+    return () => {
+      socket.current.disconnect();
+    };
+  }, []);
 
-   return () => {
-     socket.current.disconnect();
-   };
- }, []);
+ const sendMessage = async () => {
+   if (!message) return;
+   setSubmitting(true);
 
+   try {
+     // Construct message data
+     const messageData = {
+       gcId: chatRoom._id,
+       content: message,
+       senderImage: session?.user.image,
+       sender: session?.user.name,
+     };
 
-  const sendMessage = async () => {
-    if (!message) return;
-    setSubmitting(true);
+     // Emit the message to the server for real-time broadcast
+     socket.current.emit("sendMessage", messageData);
 
-    try {
-      // Construct message data
-      const messageData = {
-        gcId: chatRoom._id,
-        content: message,
-        senderImage: session?.user.image,
-        sender: session?.user.name,
-      };
+     // Save the message to the database
+     const response = await fetch("/api/messages/new", {
+       method: "POST",
+       headers: { "Content-Type": "application/json" },
+       body: JSON.stringify(messageData),
+     });
 
-      // Emit the message to the server for real-time broadcast
-      socket.current.emit("sendMessage", messageData);
+     if (!response.ok) {
+       throw new Error("Failed to save message to database");
+     }
 
-      // Save the message to the database
-      const response = await fetch("/api/messages/new", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(messageData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to save message to database");
-      }
-
-      // Clear the input field after sending
-      setMessage("");
-    } catch (err) {
-      console.error("Error sending message:", err);
-    } finally {
-      setSubmitting(false);
-    }
-  };
+     // Clear the input field after sending
+     setMessage("");
+   } catch (err) {
+     console.error("Error sending message:", err);
+   } finally {
+     setSubmitting(false);
+   }
+ };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -89,7 +88,7 @@ const Chat = ({ chatRoom }) => {
     };
 
     getMessages();
-  }, [chatRoom?._id,message]);
+  }, [chatRoom?._id]);
 
   useEffect(() => {
     scrollToBottom();
