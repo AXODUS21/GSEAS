@@ -18,7 +18,7 @@ const Chat = ({ chatRoom }) => {
 
     // Listen for incoming messages
     socket.current.on("receiveMessage", (newMessage) => {
-      getMessages()
+       setMessageList((prevMessages) => [...prevMessages, newMessage]);
     });
 
     // Handle connection errors
@@ -102,7 +102,6 @@ const Chat = ({ chatRoom }) => {
     }
   };
 
-  console.log(messageList)
 
   return (
     <div>

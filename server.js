@@ -21,6 +21,7 @@ app.prepare().then(() => {
         "http://localhost:3000", // Your local development URL
         "https://gseas.vercel.app/", // Your Vercel URL
       ],
+      methods: ["GET", "POST"],
     });
 
   io.on("connection", (socket) => {
