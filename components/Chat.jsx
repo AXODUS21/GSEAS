@@ -12,32 +12,32 @@ const Chat = ({ chatRoom }) => {
   const messagesEndRef = useRef(null);
   const socket = useRef(null);
 
-  useEffect(() => {
-    // Connect to the Socket.IO server
-    socket.current = io("https://gseas.onrender.com");
+useEffect(() => {
+  // Connect to the Socket.IO server
+  socket.current = io("https://gseas.onrender.com");
 
-    // Listen for incoming messages
-    socket.current.on("receiveMessage", (newMessage) => {
-      setMessageList((prevMessages) => [...prevMessages, newMessage]);
-    });
+  // Listen for incoming messages
+  socket.current.on("receiveMessage", (newMessage) => {
+    setMessageList((prevMessages) => [...prevMessages, newMessage]);
+  });
 
-    // Handle connection errors
-    socket.current.on("connect_error", (error) => {
-      console.error("Socket connection error:", error);
-    });
+  // Handle connection errors
+  socket.current.on("connect_error", (error) => {
+    console.error("Socket connection error:", error);
+  });
 
-    // Clean up connection on component unmount
-    return () => {
-      socket.current.disconnect();
-    };
-  }, []);
+  // Clean up connection on component unmount
+  return () => {
+    socket.current.disconnect();
+  };
+}, []);
+
 
  const sendMessage = async () => {
-   if (!message) return;
+   if (!message) return; // Don't proceed if message is empty
    setSubmitting(true);
 
    try {
-     // Construct message data
      const messageData = {
        gcId: chatRoom._id,
        content: message,
@@ -68,7 +68,8 @@ const Chat = ({ chatRoom }) => {
    }
  };
 
-  const scrollToBottom = () => {
+  
+ const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
   
