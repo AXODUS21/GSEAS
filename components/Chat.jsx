@@ -14,7 +14,7 @@ const Chat = ({ chatRoom }) => {
 
   useEffect(() => {
     // Connect to the Socket.IO server
-    socket.current = io();
+    socket.current = io("https://emerse.onrender.com");
 
     // Listen for incoming messages
     socket.current.on("receiveMessage", (newMessage) => {
