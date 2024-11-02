@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Londrina+Sketch&display=swap');
+
+*{
+  color: white;
+}
+main{
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+}
+.main::before{
+  content: "";
+  z-index: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-image: url('../public//assets/bg\(1).jpg');
+  background-size: cover;
+}
+
+.search_input {
+  @apply block w-full rounded-md border border-gray-200 bg-white py-2.5  pl-5 pr-12 text-sm shadow-lg font-medium focus:border-black focus:outline-none focus:ring-0 text-black;
+}
+
+/* Custom Button Styles */
+.custom_button {
+  @apply relative font-bold text-white bg-neutral-900 py-2 px-3 rounded-lg overflow-hidden cursor-pointer;
+}
+
+/* Circle Styles */
+.custom_circle {
+  @apply absolute bg-blue-600 h-[30px] w-[30px] rounded-full transition-transform duration-[0.5s] ease-linear;
+}
+
+.circle1 {
+  @apply -translate-x-[3.3em] -translate-y-[-2em];
+}
+
+.circle2 {
+  @apply -translate-x-[-7em] translate-y-[-2.4em];
+}
+
+.circle3 {
+  @apply -translate-x-[0.2em] translate-y-[2em];
+}
+
+.circle4 {
+  @apply translate-x-[3em] translate-y-[2em];
+}
+
+.circle5 {
+  @apply translate-x-[3.5em] -translate-y-[3.8em];
+}
+
+/* Hover Scaling Effect */
+.custom_button:hover .custom_circle {
+  @apply scale-[4.5];
+}
+
+/* Text Style */
+.custom_text {
+  @apply relative z-10;
+}
+
+@layer components {
+  .gradient-text {
+    background: linear-gradient(to top, #00f, #00c6ff); /* Blue gradient */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/*Drop Down Style*/
+.dropdown_container{
+  @apply bg-gray-50 absolute left-[-115px] bottom-[-85px] rounded-md grid py-4 px-7 gap-2;
+}
+
+.dropdown_option{
+  @apply text-black flex items-center gap-1 cursor-pointer;
+}
+
+/*Nav styles*/
+
+.translate-up {
+  transform: translateY(-300%);
+  transition: all 0.5s ease-in-out;
+  margin-bottom: 0px;
+  height: 0px;
+}
+
+.reset-position {
+  transform: translateY(0);
+  transition: all 0.5s ease-in-out;
+  margin-bottom: 4rem;
+
+}
+
+.animate_fade_in{
+  @apply animate-fade-in
+}
+
