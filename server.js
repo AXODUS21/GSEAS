@@ -16,12 +16,9 @@ app.prepare().then(() => {
   });
 
     const io = new Server(server, {
-      origin: [
-        "https://gseas.onrender.com", // Your Render URL
-        "http://localhost:3000", // Your local development URL
-        "https://gseas.vercel.app/", // Your Vercel URL
-      ],
+      origin: "*",
       methods: ["GET", "POST"],
+      credentials: true
     });
 
   io.on("connection", (socket) => {
