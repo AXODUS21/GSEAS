@@ -92,8 +92,8 @@ const ProfilePage = () => {
         <h1 className="text-4xl font-bold">WELCOME TO YOUR HOME PAGE</h1>
       </header>
 
-      <div className="grid sm:grid-cols-1 grid-cols-2 sm:px-16 px-7 mt-10 sm:gap-20 gap-4">
-          <GroupChatCard key={session?.user.id} id={session?.user.id}/>
+      <div className="grid sm:grid-cols-2 grid-cols-1 sm:px-16 px-7 mt-10 sm:gap-20 gap-4">
+        <GroupChatCard key={session?.user.id} id={session?.user.id} />
       </div>
     </div>
   );
