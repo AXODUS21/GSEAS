@@ -35,7 +35,7 @@ const ChatRoom = () => {
         <header className="flex items-center justify-between pr-10">
           <div className="flex gap-3 items-center">
             <Link href="/profile" className="text-2xl">
-              &#11160;
+              <Image src={"/assets/left-arrow.png"} height={30} width={30}/>
             </Link>
             <div className="image-container w-14 h-14 flex">
               <Image
@@ -67,7 +67,12 @@ const ChatRoom = () => {
             : "w-0"
         } transition-all overflow-hidden sm:relative absolute`}
       >
-        <div className="pl-10 text-2xl cursor-pointer sm:hidden block" onClick={() => setInfoOpened(false)}>&#11160;</div>
+        <div
+          className="pl-10 text-2xl cursor-pointer sm:hidden block"
+          onClick={() => setInfoOpened(false)}
+        >
+          &#11160;
+        </div>
         <EditForm chatRoom={chatRoom} />
       </div>
     </div>

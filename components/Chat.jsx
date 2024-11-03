@@ -107,7 +107,7 @@ const Chat = ({ chatRoom }) => {
 
   return (
     <div>
-      <div className="messages-container h-[70vh] flex flex-col pt-10 relative overflow-auto mb-10 pr-8">
+      <div className="messages-container sm:h-[70vh] h-[60vh] flex flex-col pt-10 relative overflow-auto mb-10 pr-8">
         {messageList.map((message, index) =>
           session?.user.name === message.sender ? (
             <div key={index} className="ml-12 mb-4">
@@ -163,7 +163,11 @@ const Chat = ({ chatRoom }) => {
           onClick={sendMessage}
           className="absolute right-10 top-[25%] text-2xl rotate-[140deg] text-black cursor-pointer"
         >
-          &#11160;
+          <Image
+            src={"/assets/left-arrow.png"}
+            height={30}
+            width={30}
+          />
         </span>
       </div>
     </div>
