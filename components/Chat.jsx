@@ -15,7 +15,9 @@ const Chat = ({ chatRoom }) => {
   useEffect(() => {
     // Connect to the Socket.IO server
     socket.current = io("https://gseas.onrender.com", {
-      transports: ["websocket"],
+      transports: ["websocket", "polling"],
+      reconnectionAttempts: Infinity,
+      reconnectionDelay: 5000,
     });
 
     // Listen for incoming messages
@@ -91,7 +93,7 @@ const Chat = ({ chatRoom }) => {
   useEffect(() => {
     // Fetch initial messages when the chatRoom ID changes
     getMessages();
-  }, [chatRoom?._id, message]);
+  }, [chatRoom?._id, message, messageList]);
 
   useEffect(() => {
     scrollToBottom();
