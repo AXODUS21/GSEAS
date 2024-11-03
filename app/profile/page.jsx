@@ -88,11 +88,11 @@ const ProfilePage = () => {
           />
         </span>
       </div>
-      <header className="pl-16 flex justify-between">
+      <header className="sm:pl-16 pl-4 flex justify-between">
         <h1 className="text-4xl font-bold">WELCOME TO YOUR HOME PAGE</h1>
       </header>
 
-      <div className="grid grid-cols-2 sm:px-16 px-7 mt-10 sm:gap-20 gap-4">
+      <div className="grid sm:grid-cols-1 grid-cols-2 sm:px-16 px-7 mt-10 sm:gap-20 gap-4">
           <GroupChatCard key={session?.user.id} id={session?.user.id}/>
       </div>
     </div>
