@@ -35,7 +35,7 @@ const ChatRoom = () => {
         <header className="flex items-center justify-between pr-10">
           <div className="flex gap-3 items-center">
             <Link href="/profile" className="text-2xl">
-              <Image src={"/assets/left-arrow.png"} height={30} width={30}/>
+              <Image src={"/assets/left-arrow-white.png"} height={30} width={30}/>
             </Link>
             <div className="image-container w-14 h-14 flex">
               <Image

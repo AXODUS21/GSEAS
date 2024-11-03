@@ -107,7 +107,7 @@ const Chat = ({ chatRoom }) => {
 
   return (
     <div>
-      <div className="messages-container sm:h-[70vh] h-[60vh] flex flex-col pt-10 relative overflow-auto mb-10 pr-8">
+      <div className="messages-container :h-[70dvh] flex flex-col pt-10 relative overflow-auto mb-10 pr-8">
         {messageList.map((message, index) =>
           session?.user.name === message.sender ? (
             <div key={index} className="ml-12 mb-4">
