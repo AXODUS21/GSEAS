@@ -5,7 +5,7 @@ const Main = () => {
     <div className="flex main-container w-full justify-center px-16">
       <div className="text-center flex flex-col items-center">
         <h1 className="text-4xl font-bold text-center font-londrina-sketch mb-3">
-          CHAT AND CREATE!
+          CHAT & CREATE!
           <div className="gradient-text font-londrina-sketch text-4xl font-bold">
             GROUP CHATS WITH YOUR FRIENDS
           </div>

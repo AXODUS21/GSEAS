@@ -5,7 +5,7 @@ import Provider from "@components/Provider";
 import Nav from "@components/Nav";
 
 export const metadata = {
-  title: "GSeas",
+  title: "GSEAS",
   description: "Create Group Chats with your friends",
 };
 
