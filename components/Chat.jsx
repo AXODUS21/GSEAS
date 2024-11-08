@@ -73,9 +73,16 @@ const Chat = ({ chatRoom }) => {
  };
 
   
- const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  const scrollToBottom = () => {
+    const container = messagesEndRef.current?.parentNode;
+    const isNearBottom =
+      container.scrollHeight - container.scrollTop <= container.clientHeight + 50;
+
+    if (isNearBottom) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   };
+
   
   const getMessages = async () => {
     if (!chatRoom?._id) return;
