@@ -86,11 +86,14 @@ const Chat = ({ chatRoom }) => {
       });
       const data = await response.json();
       setMessageList(data);
-      scrollToBottom();
     } catch (err) {
       console.error("Error fetching messages:", err);
     }
   };
+
+  useEffect(() => {
+    scrollToBottom();
+  },[chatRoom?._id])
 
   useEffect(() => {
     // Fetch initial messages when the chatRoom ID changes
