@@ -86,6 +86,7 @@ const Chat = ({ chatRoom }) => {
       });
       const data = await response.json();
       setMessageList(data);
+      scrollToBottom();
     } catch (err) {
       console.error("Error fetching messages:", err);
     }
@@ -94,11 +95,7 @@ const Chat = ({ chatRoom }) => {
   useEffect(() => {
     // Fetch initial messages when the chatRoom ID changes
     getMessages();
-  }, [chatRoom?._id, message, messageList]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, []);
+  }, [chatRoom?._id, messageList]);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
