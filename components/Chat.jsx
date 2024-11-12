@@ -74,13 +74,7 @@ const Chat = ({ chatRoom }) => {
 
   
   const scrollToBottom = () => {
-    const container = messagesEndRef.current?.parentNode;
-    const isNearBottom =
-      container.scrollHeight - container.scrollTop <= container.clientHeight + 50;
-
-    if (isNearBottom) {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
   };
 
   
@@ -104,7 +98,7 @@ const Chat = ({ chatRoom }) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messageList]);
+  }, []);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
