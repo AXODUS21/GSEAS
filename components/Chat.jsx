@@ -40,6 +40,7 @@ const Chat = ({ chatRoom }) => {
  const sendMessage = async () => {
    if (!message) return; // Don't proceed if message is empty
    setSubmitting(true);
+   setMessage("");
 
    try {
      const messageData = {
@@ -61,10 +62,7 @@ const Chat = ({ chatRoom }) => {
 
      if (!response.ok) {
        throw new Error("Failed to save message to database");
-     }
-
-     // Clear the input field after sending
-     setMessage("");
+     }     
    } catch (err) {
      console.error("Error sending message:", err);
    } finally {
