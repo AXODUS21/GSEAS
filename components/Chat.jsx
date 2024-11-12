@@ -74,7 +74,14 @@ const Chat = ({ chatRoom }) => {
 
   
   const scrollToBottom = () => {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        const container = messagesEndRef.current?.parentNode;
+        const isNearBottom =
+          container.scrollHeight - container.scrollTop <=
+          container.clientHeight + 50;
+
+        if (isNearBottom) {
+          messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        }
   };
 
   
@@ -93,7 +100,7 @@ const Chat = ({ chatRoom }) => {
 
   useEffect(() => {
     scrollToBottom();
-  },[chatRoom?._id])
+  },[messageList])
 
   useEffect(() => {
     // Fetch initial messages when the chatRoom ID changes
