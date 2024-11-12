@@ -74,14 +74,7 @@ const Chat = ({ chatRoom }) => {
 
   
   const scrollToBottom = () => {
-        const container = messagesEndRef.current?.parentNode;
-        const isNearBottom =
-          container.scrollHeight - container.scrollTop <=
-          container.clientHeight + 50;
-
-        if (isNearBottom) {
-          messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-        }
+     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   
