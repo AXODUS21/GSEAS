@@ -18,7 +18,6 @@ const GroupChatCard = ({id}) => {
     getGroupChats();
   }, [id]);
 
-  console.log(gcs)
   return (
     <>
       {gcs.map((gc) => {
