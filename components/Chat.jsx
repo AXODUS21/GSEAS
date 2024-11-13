@@ -75,12 +75,19 @@ const Chat = ({ chatRoom }) => {
 
       const data = await response.json();
       setMessageList(data);
-      scrollToBottom();
     } catch (err) {
       console.error("Error fetching messages:", err);
     }
   };
 
+  useEffect(() => {
+    const scrollTimeout = setTimeout(() => {
+      scrollToBottom();
+    }, 100); // Optional: adjust timeout as needed
+
+    return () => clearTimeout(scrollTimeout); // Clean up timeout if component unmounts
+  }, [messageList]);
+  
   useEffect(() => {
     getMessages();
   }, [chatRoom?._id]); // Run only when chatRoom ID changes
