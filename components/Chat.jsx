@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -10,9 +10,7 @@ const Chat = ({ chatRoom }) => {
   const { data: session } = useSession();
   const [submitting, setSubmitting] = useState(false);
   const messagesEndRef = useRef(null);
-  const chatContainerRef = useRef(null);
   const socket = useRef(null);
-  const isUserAtBottom = useRef(true); // Track if user is at the bottom
 
   useEffect(() => {
     socket.current = io("https://gseas.onrender.com", {
@@ -37,15 +35,15 @@ const Chat = ({ chatRoom }) => {
   const sendMessage = async () => {
     if (!message) return;
     setSubmitting(true);
+    const messageData = {
+      gcId: chatRoom._id,
+      content: message,
+      senderImage: session?.user.image,
+      sender: session?.user.name,
+    };
+    setMessage(""); // Clear input field immediately for UX
 
     try {
-      const messageData = {
-        gcId: chatRoom._id,
-        content: message,
-        senderImage: session?.user.image,
-        sender: session?.user.name,
-      };
-
       socket.current.emit("sendMessage", messageData);
 
       const response = await fetch("/api/messages/new", {
@@ -54,11 +52,7 @@ const Chat = ({ chatRoom }) => {
         body: JSON.stringify(messageData),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to save message to database");
-      }
-
-      setMessage("");
+      if (!response.ok) throw new Error("Failed to save message to database");
     } catch (err) {
       console.error("Error sending message:", err);
     } finally {
@@ -70,26 +64,26 @@ const Chat = ({ chatRoom }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleScroll = () => {
-    const container = chatContainerRef.current;
-    const atBottom =
-      container.scrollHeight - container.scrollTop <=
-      container.clientHeight + 10;
-    isUserAtBottom.current = atBottom;
+  const getMessages = async () => {
+    if (!chatRoom?._id) return;
+    try {
+      const response = await fetch(`/api/messages/${chatRoom._id}`, {
+        cache: "no-store",
+      });
+      if (!response.ok)
+        throw new Error("Failed to fetch messages from database");
+
+      const data = await response.json();
+      setMessageList(data);
+      scrollToBottom();
+    } catch (err) {
+      console.error("Error fetching messages:", err);
+    }
   };
 
   useEffect(() => {
-    // Only scroll if the user is already at the bottom
-    if (isUserAtBottom.current) scrollToBottom();
-  }, [messageList]);
-
-  useEffect(() => {
-    const container = chatContainerRef.current;
-    container.addEventListener("scroll", handleScroll);
-    return () => {
-      container.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+    getMessages();
+  }, [chatRoom?._id]); // Run only when chatRoom ID changes
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -100,10 +94,7 @@ const Chat = ({ chatRoom }) => {
 
   return (
     <div>
-      <div
-        ref={chatContainerRef}
-        className="messages-container h-[70dvh] flex flex-col pt-10 relative overflow-auto mb-10 pr-8"
-      >
+      <div className="messages-container h-[70dvh] flex flex-col pt-10 relative overflow-auto mb-10 pr-8">
         {messageList.map((message, index) =>
           session?.user.name === message.sender ? (
             <div key={index} className="ml-12 mb-4">
